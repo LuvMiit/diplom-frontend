@@ -1,31 +1,39 @@
 <template>
   <div class="page">
       <page/>
-        <div>
-              <div>
-                <label for="front">Спереди:</label>
-                <input type="file" id="front" @change="handleFileUpload('Спереди')">
+        <div class = "workspace">
+              <div class="load">
+                    <div>
+                      <label for="front">Спереди:</label>
+                      <input type="file" id="front" @change="handleFileUpload('Спереди')">
+                    </div>
+                    <div>
+                      <label for="back">Сзади:</label>
+                      <input type="file" id="back" @change="handleFileUpload('Сзади')">
+                    </div>
+                    <div>
+                      <label for="left">Слева:</label>
+                      <input type="file" id="left" @change="handleFileUpload('Слева')">
+                    </div>
+                    <div>
+                      <label for="right">Справа:</label>
+                      <input type="file" id="right" @change="handleFileUpload('Справа')">
+                    </div>
+                    <div>
+                      <label for="inside">Внутри:</label>
+                      <input type="file" id="inside" @change="handleFileUpload('Внутри')">
+                    </div>
+                    <button @click="submitPhotos">Загрузить</button>
               </div>
-              <div>
-                <label for="back">Сзади:</label>
-                <input type="file" id="back" @change="handleFileUpload('Сзади')">
+          <p>Фотоотчеты для {{carPlates}}</p>
+          <div v-for="(group, date) in groupedImageData" :key="date">
+            <h2>{{ date }}</h2>
+            <div class="photos">
+              <div v-for="(photo, index) in group" :key="index">
+                <img :src="photo.src" alt="photo" class="photo">
               </div>
-              <div>
-                <label for="left">Слева:</label>
-                <input type="file" id="left" @change="handleFileUpload('Слева')">
-              </div>
-              <div>
-                <label for="right">Справа:</label>
-                <input type="file" id="right" @change="handleFileUpload('Справа')">
-              </div>
-              <div>
-                <label for="inside">Внутри:</label>
-                <input type="file" id="inside" @change="handleFileUpload('Внутри')">
-              </div>
-              <button @click="submitPhotos">Загрузить</button>
-              <div v-for="(photo, index) in imageData" :key="index">
-                <img :src="photo" :alt="'Photo ' + index">
-              </div>
+            </div>
+          </div>
         </div>
   </div>
 </template>
@@ -49,7 +57,9 @@ export default {
       types:["Спереди", "Сзади", "Слева", "Справа", "Внутри"],
       dates:[],
       uploadedPhotos: [],
-      imageData: []
+      imageData: [],
+      carPlates: null
+
     };
   },
   methods: {
@@ -88,13 +98,25 @@ export default {
           console.log("Date: ", date);
 
           axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`
-          axios.get(`http://localhost:8080/images/get/${this.carPlates}/${type}/${date}`)
+          axios.get(
+              `http://localhost:8080/images/get/${this.carPlates}/${type}/${date}`,
+              { responseType: 'arraybuffer' })
               .then(response => {
-                this.imageData.push('data:image/png;base64,' + response.data);
-              })
-              .catch(error => {
-                console.error('Error fetching image:', error);
-              });
+            // Преобразуем массив байтов в формат base64
+
+            const base64String = btoa(
+                new Uint8Array(response.data).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),''));
+            // Формируем строку для отображения изображения
+            this.imageData.push({
+              src: `data:image/png;base64,${base64String}`,
+              date: date
+            });
+          })
+          .catch(error => {
+            // Обрабатываем ошибку запроса
+            console.error('Error fetching image data:', error);
+          });
         });
       });
     }
@@ -105,13 +127,25 @@ export default {
   created() {
     this.carPlates = this.$route.query.plates
 
-
     let currentDate = new Date();
     this.dates.push(currentDate.toISOString().slice(0,10));
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 1; i++) {
       let prevDate = new Date();
-      prevDate.setDate(currentDate.getDate() - i);
+      prevDate.setDate(currentDate.getDate() - 1);
       this.dates.push(prevDate.toISOString().slice(0,10));
+    }
+  },
+  computed: {
+    // Группировка изображений по датам
+    groupedImageData() {
+      const groupedData = {};
+      this.imageData.forEach(image => {
+        if (!groupedData[image.date]) {
+          groupedData[image.date] = [];
+        }
+        groupedData[image.date].push(image);
+      });
+      return groupedData;
     }
   }
 };
@@ -119,6 +153,31 @@ export default {
 <style scoped>
 .page{
   display: flex;
+  flex-direction: row;
+}
+.photos{
+  display: flex;
+  flex-direction: row;
 
+  border-style: solid;
+  border-radius: 20px;
+
+  background-color: mistyrose;
+
+  margin: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.photo{
+  max-width: 300px;
+ }
+.load{
+  display: flex;
+  flex-direction: column;
+}
+.workspace{
+  display: flex;
+  flex-direction: column;
 }
 </style>
