@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import {garageFlag, setGarageFlag} from "@/store.js";
 
 export default {
   name:'GaragePage',
@@ -11,21 +10,7 @@ export default {
     return{
     localGarageFlag:true
     }
-  },
-  methods: {
-    garageFlag() {
-      return garageFlag
-    },
-    returnToGarage(){
-      this.localGarageFlag = garageFlag
-    },
-    loadGarageFlag(){
-      this.localGarageFlag=garageFlag
-    }
-  },
-  props:[
-
-  ]
+  }
 }
 </script>
 

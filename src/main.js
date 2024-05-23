@@ -10,6 +10,7 @@ import Cars from "@/components/Cars.vue";
 import AddPage from "@/components/CarPages/AddPage.vue";
 import RepairsPage from "@/components/CarPages/RepairsPage.vue";
 import LoadPhoto from "@/components/Load/LoadPhoto.vue";
+import StoragePage from "@/components/StoragePages/StoragePage.vue";
 
 
 const router = createRouter({
@@ -44,6 +45,11 @@ const router = createRouter({
         name: 'LoadPhotoPage',
         path: '/loadPhoto',
         component: LoadPhoto
+
+    },{
+        name: 'Storage',
+        path: '/storage',
+        component: StoragePage
 
     }]
 })

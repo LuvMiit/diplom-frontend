@@ -6,27 +6,11 @@ let authFlag = false
 let selectedStatus=null
 let selectedType = null
 let selectedFuel = null
-let repairFlag = false
-let photoFlag = false
-let garageFlag=true
+let selectedStorage = null
 
-function setPhotoFlag(bool){
-    photoFlag = bool
-    garageFlag=false
-    repairFlag=false
+function setStorage(storage){
+    selectedStorage = storage
 }
-function setGarageFlag(bool){
-    garageFlag = bool
-    photoFlag=false
-    repairFlag=false
-}
-function setRepairFlag(bool){
-    repairFlag = bool
-    garageFlag=false
-    photoFlag=false
-}
-
-
 
 function setFuel(fuel){
     selectedFuel = fuel
@@ -54,8 +38,8 @@ function nullFilters(){
     selectedFuel=null
     selectedType=null
     selectedStatus=null
+    selectedStorage=null
 }
 
-export { userRole, userToken,selectedStatus,selectedType, selectedFuel, repairFlag, photoFlag,
-    garageFlag, setGarageFlag, setRepairFlag, setPhotoFlag, setRole, setToken, setType, setStatus,
+export { userRole, userToken,selectedStatus,selectedType, selectedFuel,selectedStorage, setStorage, setRole, setToken, setType, setStatus,
     setAuthFlag, setFuel, nullFilters, getConsole}

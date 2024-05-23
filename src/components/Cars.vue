@@ -1,7 +1,7 @@
 <template >
   <div class="page">
       <Page/>
-      <div >
+      <div>
         <p class="logo" v-if="!addFlag">Фильтры и действия</p>
         <div class="filters" >
           <StatusSelector @click="loadFilters"  class="selector"/>
@@ -15,7 +15,7 @@
 
 <script>
 import axios from "axios";
-import {nullFilters, selectedStatus, selectedType, setGarageFlag, userToken} from "@/store.js";
+import {selectedStatus, selectedType, userToken} from "@/store.js";
 import CarTable from "@/components/Tables/CarTable.vue";
 import StatusSelector from "@/components/DropLists/StatusSelector.vue";
 import TypesSelector from "@/components/DropLists/TypeSelector.vue";
@@ -35,7 +35,6 @@ export default {
     FuelSelector, RepairsPage, PhotoPage, GaragePage, CarPages, TypesSelector, StatusSelector, CarTable},
   data(){
     return{
-      garageFlag:true, photoFlag:false, repairFlag:false,
 
       addFlag: false,
 
@@ -52,8 +51,6 @@ export default {
       axios.get("http://localhost:8080/cars/all").then(response => this.responseData = response.data).catch(localError=>this.error = localError)
   },
   methods:{
-    setGarageFlag,
-    nullFilters,
     loadFilters(){
       this.statusFilter = selectedStatus
       this.typeFilter = selectedType
@@ -81,22 +78,6 @@ export default {
 .page{
   display: flex;
   flex-direction: row;
-}
-.selector{
-}
-.addPage{
-  min-width: 1600px;
-
-}
-.pages{
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  margin-left: 40px;
-  border-bottom-style: solid;
-  border-bottom-color: cornflowerblue;
-  border-bottom-width: 2px;
-  box-shadow: -1px 23px 28px -30px cornflowerblue;
 }
 
 .filters{

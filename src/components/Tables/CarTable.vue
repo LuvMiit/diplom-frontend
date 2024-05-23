@@ -40,7 +40,6 @@
 import TypesSelector from "@/components/DropLists/TypeSelector.vue";
 import StatusSelector from "@/components/DropLists/StatusSelector.vue";
 import LoadPhoto from "@/components/Load/LoadPhoto.vue";
-import {setPhotoFlag, setRepairFlag} from "@/store.js";
 
 
 export default {
@@ -53,14 +52,6 @@ export default {
     return{
       flag: false,
       selectedStatus: 'В гараже'
-    }
-  },
-  methods:{
-    setPhoto(){
-      setPhotoFlag(true)
-    },
-    setRepair(){
-      setRepairFlag(true)
     }
   }
 }

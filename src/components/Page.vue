@@ -2,22 +2,14 @@
   <div class="homepage">
     <div class="left-bar">
       <nav>
-        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'"  @click="activeComponent='cars'; nullFilters();$router.push('cars')">Транспорт</p>
-        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="activeComponent='storage'; nullFilters()">Склад</p>
-        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="activeComponent='crew'; nullFilters()">Команды</p>
-        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="activeComponent='repair'; nullFilters()">Ремонт</p>
-        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="activeComponent='register'; nullFilters()">Регистрация сотрудника</p>
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'"  @click="nullFilters();$router.push('cars')">Транспорт</p>
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="; nullFilters();$router.push('Storage')">Склад</p>
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Команды</p>
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Ремонт</p>
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Регистрация сотрудника</p>
       </nav>
       <button class="exit-btn">Выйти</button>
     </div>
-
-<!--    <div class="contentSpace">-->
-<!--      <Cars v-if="activeComponent === 'cars'"/>-->
-<!--      <Storage v-if="activeComponent === 'storage'"/>-->
-<!--      <Crew v-if="activeComponent === 'crew'"/>-->
-<!--      <Repair v-if="activeComponent === 'repair'"/>-->
-<!--      <Register v-if="activeComponent === 'register'"/>-->
-<!--    </div>-->
   </div>
 </template>
 
