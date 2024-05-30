@@ -6,11 +6,14 @@ import App from './App.vue'
 
 import LogIn from "@/components/LogIn.vue";
 import homePage from "@/components/HomePage.vue";
-import Cars from "@/components/Cars.vue";
+import Cars from "@/components/CarPages/Cars.vue";
 import AddPage from "@/components/CarPages/AddPage.vue";
 import RepairsPage from "@/components/CarPages/RepairsPage.vue";
 import LoadPhoto from "@/components/Load/LoadPhoto.vue";
 import StoragePage from "@/components/StoragePages/StoragePage.vue";
+import AddConsumables from "@/components/StoragePages/AddConsumables.vue";
+import LoadWord from "@/components/Load/LoadWord.vue";
+import CreateWord from "@/components/CarPages/CreateWord.vue";
 
 
 const router = createRouter({
@@ -50,6 +53,21 @@ const router = createRouter({
         name: 'Storage',
         path: '/storage',
         component: StoragePage
+
+    },{
+        name: 'AddConsumablePage',
+        path: '/addConsum',
+        component: AddConsumables
+
+    },{
+        name: 'LoadWord',
+        path: '/loadWord',
+        component: LoadWord
+
+    },{
+        name: 'CreateWord',
+        path: '/createWord',
+        component: CreateWord
 
     }]
 })

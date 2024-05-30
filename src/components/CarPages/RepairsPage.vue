@@ -116,14 +116,6 @@ export default {
 .tableHead{
   display:flex;
 }
-.thComponentPlates{
-  width:120px;
-  border-style: solid;
-  border-width: 2px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-color: cornflowerblue;
-}
 .thComponent{
   width:200px;
   border-style: solid;

@@ -6,10 +6,11 @@
         <div class="filters" >
           <StatusSelector @click="loadFilters"  class="selector"/>
           <TypesSelector @click="loadFilters" />
-          <button class="addBut" @click="$router.push('addCar')" v-if="!addFlag" >Добавить ТС</button>
         </div>
         <CarTable :data="filterData()" v-if="!addFlag"/>
+        <button class="addBut" @click="$router.push('addCar')" v-if="!addFlag" >Добавить ТС</button>
       </div>
+
   </div>
 </template>
 
@@ -88,9 +89,9 @@ export default {
 }
 .addBut{
   height: 36px;
-  margin: 20px;
   border-radius: 10px;
   transition: transform 200ms ease;
+  margin-left: 755px;
 }
 .addBut:active{
   transform: scale(0.9);

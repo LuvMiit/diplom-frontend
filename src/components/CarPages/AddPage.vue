@@ -26,27 +26,50 @@
             <p>Номерной знак</p>
             <input type="text" placeholder="А111АА111" class="inputPlace" v-model="carPlates">
           </div>
-          <div class="selComp">
-            <p>Пробег добавляемого ТС в км</p>
+          <div class="selComp2">
+            <p>Пробег</p>
             <input type="text" placeholder="100.1 или 100" class="inputPlace" v-model="mileage">
           </div>
         </div>
 
         <div class="selectors">
           <div class="selComp">
-            <p>VIN-номер добавляемого ТС</p>
+            <p>VIN-номер </p>
             <input type="text" placeholder="Заглавные 17 символов" class="inputPlace" v-model="vin">
           </div>
-          <div class="selComp">
+          <div class="selComp2">
             <p>Санция СМП</p>
             <input type="text" disabled value='ССМП "Красногорская ГЛ"' class="inputPlace">
           </div>
         </div>
-        <p>Позже тут нваерно будет добавление фото</p>
+
+        <div class="selectors">
+          <div class="selComp">
+            <p>Передающая организация</p>
+            <input type="text" placeholder="Название организации" class="inputPlace" v-model="sellerCompanyName">
+          </div>
+          <div class="selComp2">
+            <p>ФИО ответственного</p>
+            <input type="text" placeholder='Иванов И.И.' class="inputPlace" v-model="fioSeller">
+          </div>
+        </div>
+        <div class="selectors">
+          <div class="selComp">
+            <p>Марка ТС</p>
+            <input type="text" placeholder="Название марки" class="inputPlace" v-model="brand">
+          </div>
+          <div class="selComp2">
+            <p>Год выпуска</p>
+            <input type="text" placeholder='гггг' class="inputPlace" v-model="release">
+          </div>
+        </div>
+
+        <p>    </p>
       </div>
       <div class="btns">
-        <button class="saveBut" @click="checkAndSaveData">Сохранить</button>
+        <button class="saveBut" @click="checkAndSaveData">Сохранить и составить акт приема</button>
         <button class="saveBut" @click="$router.push('cars')">Назад</button>
+        <p v-if="responseData!==null">Успешно!</p>
       </div>
     </div>
   </div>
@@ -71,11 +94,17 @@ export default {
       fuelFilter: null,
       error:'',
       errorPost:null,
+      responseData: null,
 
       carPlates:null,
       mileage:null,
       vin: null,
-      station:'ССМП "Красногорская ГЛ"'
+      station:'ССМП "Красногорская ГЛ"',
+      fioSeller: null,
+      sellerCompanyName: null,
+      brand: null,
+      release: null,
+      status: "На проверке"
 
     }
   },
@@ -100,13 +129,30 @@ export default {
       if(this.vin === null || this.vin.length !== 17){
         this.error = this.error + " Неверно указан vin-номер ТС!"
       }
+      if(this.fioSeller === null ){
+        this.error = this.error + " Не указаны ФИО отвественного передающего!"
+      }
+      if(this.sellerCompanyName === null ){
+        this.error = this.error + " Не указано название передающей организации!"
+      }
+      if(this.brand === null ){
+        this.error = this.error + " Не указано название марки ТС!"
+      }
+      if(this.release === null ){
+        this.error = this.error + " Не указана дата выпуска ТС!"
+      }
       if(this.error === '') {
         axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`
         axios.post("http://localhost:8080/cars/add", {
-          carPlates: this.carPlates, mileage: this.mileage,
-          vin:this.vin, stationName:this.station,
-          status:this.statusFilter, type: this.typeFilter,
-          fuel:this.fuelFilter
+          carPlates: this.carPlates,
+          mileage: this.mileage,
+          vin: this.vin,
+          stationName: this.station,
+          status: this.statusFilter,
+          type: this.typeFilter,
+          fuel: this.fuelFilter,
+          brand: this.brand,
+          release: this.release
         })
             .then(response => this.responseData = response.data).catch(error => this.errorPost = error);
       }
@@ -115,6 +161,25 @@ export default {
       this.statusFilter = selectedStatus
       this.typeFilter = selectedType
       this.fuelFilter = selectedFuel
+    }
+  },
+  watch: {
+    responseData: function (){
+      alert("ышмуьшщм")
+      axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`
+      axios.post("http://localhost:8080/document/accept", {
+        carPlates: this.carPlates,
+        mileage: this.mileage,
+        vinNumber: this.vin,
+        stationName: this.station,
+        fioSeller: this.fioSeller,
+        sellerCompanyName: this.sellerCompanyName,
+        brand: this.brand,
+        release: this.release,
+        status: this.status
+
+      })
+          .catch(error => alert(error));
     }
   }
 }
@@ -181,5 +246,12 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.selComp2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
 }
 </style>

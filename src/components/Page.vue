@@ -6,7 +6,10 @@
         <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="; nullFilters();$router.push('Storage')">Склад</p>
         <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Команды</p>
         <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Ремонт</p>
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters(); $router.push('')">Заявки на акты</p>
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters(); $router.push('')">Акты на проверку</p>
         <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Регистрация сотрудника</p>
+        <!--        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters(); $router.push('loadWord')">Документ ворд</p>-->
       </nav>
       <button class="exit-btn">Выйти</button>
     </div>
@@ -16,7 +19,7 @@
 <script>
 import {nullFilters, userRole} from "@/store.js"
 
-import Cars from "@/components/Cars.vue";
+import Cars from "@/components/CarPages/Cars.vue";
 import Storage from "@/components/Storage.vue";
 import Crew from "@/components/Crew.vue";
 import Repair from "@/components/Repair.vue";

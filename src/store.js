@@ -7,7 +7,14 @@ let selectedStatus=null
 let selectedType = null
 let selectedFuel = null
 let selectedStorage = null
-
+let selectedConsumable = null
+let selectedBoss = null
+function setBoss(boss){
+    selectedBoss = boss
+}
+function setConsumable(consumable){
+    selectedConsumable = consumable
+}
 function setStorage(storage){
     selectedStorage = storage
 }
@@ -41,5 +48,6 @@ function nullFilters(){
     selectedStorage=null
 }
 
-export { userRole, userToken,selectedStatus,selectedType, selectedFuel,selectedStorage, setStorage, setRole, setToken, setType, setStatus,
-    setAuthFlag, setFuel, nullFilters, getConsole}
+export { userRole, userToken,selectedStatus,selectedType, selectedFuel,selectedStorage, selectedConsumable, selectedBoss,
+    setConsumable, setStorage, setRole, setToken, setType, setStatus, setAuthFlag, setFuel, setBoss, nullFilters,
+    getConsole}

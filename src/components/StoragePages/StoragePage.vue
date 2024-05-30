@@ -5,11 +5,11 @@
       <div class="selButtLogo">
           <h1 class="logo">Выберите склад</h1>
             <div>
-              <StorageSelector @click="loadFilters"/>
+              <StorageSelector @click="loadFilters" class="selector"/>
             </div>
         <div class="btns">
-          <button class="showButton" @click="loadData">Показать наличие</button>
-          <button class="addButton" @click="">Зафиксировать поставку</button>
+          <button class="addButton" @click="$router.push({name:'AddConsumablePage',
+                  query:{storage: storageFilter}})" v-if="storageFilter">Зафиксировать поставку</button>
         </div>
       </div>
             <StorageTable :data="filterData()" v-if="responseData!=null"/>
@@ -49,6 +49,11 @@ export default {
     },
     loadFilters(){
       this.storageFilter = selectedStorage
+    }
+  },
+  watch:{
+    storageFilter: function(){
+      this.loadData()
     }
   }
 }

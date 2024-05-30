@@ -6,7 +6,7 @@
 <script>
 import {nullFilters, userRole} from "@/store.js"
 
-import Cars from "@/components/Cars.vue";
+import Cars from "@/components/CarPages/Cars.vue";
 import Storage from "@/components/Storage.vue";
 import Crew from "@/components/Crew.vue";
 import Repair from "@/components/Repair.vue";
