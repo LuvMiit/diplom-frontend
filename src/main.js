@@ -14,6 +14,11 @@ import StoragePage from "@/components/StoragePages/StoragePage.vue";
 import AddConsumables from "@/components/StoragePages/AddConsumables.vue";
 import LoadWord from "@/components/Load/LoadWord.vue";
 import CreateWord from "@/components/CarPages/CreateWord.vue";
+import ChangeInfo from "@/components/CarPages/ChangeInfo.vue";
+import Crew from "@/components/Crew.vue";
+import Register from "@/components/Register.vue";
+import Employee from "@/components/Employee.vue";
+import AddCrew from "@/components/AddCrew.vue";
 
 
 const router = createRouter({
@@ -68,6 +73,26 @@ const router = createRouter({
         name: 'CreateWord',
         path: '/createWord',
         component: CreateWord
+
+    },{
+        name: 'ChangeInfo',
+        path: '/changeInfo',
+        component: ChangeInfo
+
+    },{
+        name: 'Crew',
+        path: '/Crew',
+        component: Crew
+
+    },{
+        name: 'Employee',
+        path: '/employee',
+        component: Employee
+
+    },{
+        name: 'AddCrew',
+        path: '/addCrew',
+        component: AddCrew
 
     }]
 })

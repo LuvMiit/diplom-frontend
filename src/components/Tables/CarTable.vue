@@ -14,7 +14,7 @@
             </thead>
             <tbody class="tableBody">
 
-              <tr v-for="car in paginatedData" :key="car.carID" class="tableRow" v-on:click="flag=car.carPlates">
+              <tr v-for="car in paginatedData" :key="car.carID" class="tableRow" v-on:click="flag=car.carPlates; mileage = car.mileage">
                 <td class="tableBodyCompNumber">{{car.brand}}</td>
                 <td class="tableBodyCompNumber">{{car.carPlates}}</td>
                 <td class="tableBodyCompStatus">{{car.status.statusName}}</td>
@@ -32,6 +32,14 @@
                   <button @click="$router.push({name:'LoadPhotoPage', query:{plates: flag}})" class="btns">Фотографии</button>
                   <button @click="$router.push({name:'RepairsPage', query:{plates: flag}})" class="btns">Ремонты</button>
                   <button @click="$router.push({name:'CreateWord', query:{plates: flag}})" class="btns">Сформировать акт</button>
+                  <button @click="$router.push({name:'ChangeInfo', query:{plates: flag, mileage: mileage}})" class="btns">Зафиксировть изменения</button>
+                  <div class="acts">
+                    <p>Выберите тип акта</p>
+                    <DocTypeSelector @click="wordDocument=null"/>
+                    <p v-if="error">Акт отсутствует</p>
+                    <button v-if="!wordDocument" @click="fetchWordDocument">Проверить наличие акта</button>
+                    <button v-if="wordDocument" @click="downloadWordDocument">Выгрузить в файл .docx</button>
+                  </div>
                 </td>
               </tr>
 
@@ -50,20 +58,27 @@
 import TypesSelector from "@/components/DropLists/TypeSelector.vue";
 import StatusSelector from "@/components/DropLists/StatusSelector.vue";
 import LoadPhoto from "@/components/Load/LoadPhoto.vue";
+import DocTypeSelector from "@/components/DropLists/TypesDocSelector.vue";
+import axios from "axios";
+import {selectedDocType, userToken} from "@/store.js";
 
 
 export default {
   name:'CarTable',
-  components: {LoadPhoto, StatusSelector, TypesSelector},
+  components: {DocTypeSelector, LoadPhoto, StatusSelector, TypesSelector},
   props:{
     data: []
   },
   data(){
     return{
       flag: false,
+      mileage: false,
       selectedStatus: 'В гараже',
       itemsPerPage: 8,
-      currentPage: 1
+      currentPage: 1,
+      wordDocument: null,
+      selectedDocType: null,
+      error: null
     }
   },
   computed: {
@@ -89,6 +104,37 @@ export default {
       if (this.currentPage > 1) {
         this.currentPage--;
       }
+    },
+    async fetchWordDocument() {
+      this.error = null
+      this.selectedDocType = selectedDocType
+      try {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`
+        axios.get(
+            `http://localhost:8080/document/get/${this.flag}/${this.selectedDocType}`,
+            { responseType: 'arraybuffer' })
+            .then(response =>  this.wordDocument = btoa(
+                new Uint8Array(response.data).reduce(
+                    (data, byte) => data + String.fromCharCode(byte),''))
+            )
+            .catch(error=> this.error = error)
+      }catch (error){
+        alert(error)
+      }
+
+    },
+    downloadWordDocument() {
+      // Create an anchor element to trigger download
+      try{
+        const link = document.createElement('a');
+        link.href = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + this.wordDocument;
+        link.download = 'document.docx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }catch (error){
+        alert(error)
+      }
     }
   }
 }
@@ -96,6 +142,13 @@ export default {
 </script>
 
 <style scoped>
+.acts{
+  margin-left: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .pgBut{
   border-radius: 10px;
   padding: 10px;
@@ -187,11 +240,6 @@ export default {
     min-width: 250px;
     max-width: 250px;
 }
-
-
-
-.tableBody{
-}
 .tableRow{
   display: flex;
   align-content: center;
@@ -273,8 +321,10 @@ export default {
 }
 .info{
   display: flex;
-  margin-left: 20px;
-  margin-top: 20px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
 }
 .btns{
   margin: 20px;

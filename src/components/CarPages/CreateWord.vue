@@ -21,7 +21,7 @@
       <input placeholder="Причина" class="placeHolder" v-model="reason">
       <p>Введите табельный номер гл. механика</p>
       <input placeholder="Номер" class="placeHolder" v-model="idMech" @click="loadFilters">
-      <button @click="saveDataSpis">Сохранить</button>
+      <button @click="saveDataSpis">Списать и сохранить</button>
     </div>
   </div>
 </div>
@@ -73,6 +73,8 @@ export default {
             status: this.status,
             reason: this.reason
           })
+      axios.post(
+          `http://localhost:8080/cars/write-down/${this.carPlates}`)
     }
   },
   created() {

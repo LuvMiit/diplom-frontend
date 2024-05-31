@@ -9,6 +9,22 @@ let selectedFuel = null
 let selectedStorage = null
 let selectedConsumable = null
 let selectedBoss = null
+let selectedRole = null
+let selectedPost = null
+let selectedDriver = null
+let selectedDocType = null
+function setDocType(type){
+    selectedDocType = type
+}
+function setDriver(driver){
+    selectedDriver = driver
+}
+function setPost(post){
+    selectedPost = post
+}
+function setSelectedRole(role){
+    selectedRole = role
+}
 function setBoss(boss){
     selectedBoss = boss
 }
@@ -35,6 +51,9 @@ function setRole(role){
 function setToken(token){
     userToken = token
 }
+function logoutToken(){
+    userToken = null
+}
 function setAuthFlag(flag){
     authFlag = flag
 }
@@ -48,6 +67,8 @@ function nullFilters(){
     selectedStorage=null
 }
 
-export { userRole, userToken,selectedStatus,selectedType, selectedFuel,selectedStorage, selectedConsumable, selectedBoss,
-    setConsumable, setStorage, setRole, setToken, setType, setStatus, setAuthFlag, setFuel, setBoss, nullFilters,
+export { userRole, userToken,selectedStatus,selectedType, selectedFuel,selectedStorage, selectedConsumable, selectedBoss, selectedRole,
+    selectedPost, selectedDriver,selectedDocType,
+    setSelectedRole, setPost, setDriver, setDocType,
+    setConsumable, logoutToken, setStorage, setRole, setToken, setType, setStatus, setAuthFlag, setFuel, setBoss, nullFilters,
     getConsole}

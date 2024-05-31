@@ -1,5 +1,5 @@
 <template >
-  <div class="page">
+  <div class="page" v-if="userToken!==null">
       <Page/>
       <div>
         <p class="logo" v-if="!addFlag">Фильтры и действия</p>
@@ -30,6 +30,11 @@ import Page from "@/components/Page.vue";
 
 export default {
   name:'Cars',
+  computed: {
+    userToken() {
+      return userToken
+    }
+  },
   components: {
     Page,
     AddPage,

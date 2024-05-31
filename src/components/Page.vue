@@ -1,34 +1,39 @@
 <template>
-  <div class="homepage">
+  <div class="homepage" v-if="userToken!==null">
     <div class="left-bar">
       <nav>
         <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'"  @click="nullFilters();$router.push('cars')">Транспорт</p>
         <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="; nullFilters();$router.push('Storage')">Склад</p>
-        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Команды</p>
-        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Ремонт</p>
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters();$router.push('Crew')">Команды</p>
+<!--        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Ремонт</p>-->
         <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters(); $router.push('')">Заявки на акты</p>
         <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters(); $router.push('')">Акты на проверку</p>
-        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters()">Регистрация сотрудника</p>
-        <!--        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters(); $router.push('loadWord')">Документ ворд</p>-->
+        <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters();$router.push('Employee')">Персонал</p>
+<!--                <p class="bar-item" v-if="userRole === 'ROLE_ADMIN'" @click="nullFilters(); $router.push('loadWord')">Документ ворд</p>-->
       </nav>
-      <button class="exit-btn">Выйти</button>
+      <button class="exit-btn" @click="exit">Выйти</button>
     </div>
   </div>
 </template>
 
 <script>
-import {nullFilters, userRole} from "@/store.js"
-
-import Cars from "@/components/CarPages/Cars.vue";
-import Storage from "@/components/Storage.vue";
-import Crew from "@/components/Crew.vue";
-import Repair from "@/components/Repair.vue";
-import Register from "@/components/Register.vue";
+import {logoutToken, nullFilters, userRole, userToken} from "@/store.js"
 
 export default {
   name: 'Page',
-  methods: {nullFilters},
-  components: {Register, Repair, Crew, Storage},
+  computed: {
+    userToken() {
+      return userToken
+    }
+  },
+  methods: {
+    nullFilters,
+    exit(){
+      logoutToken()
+      this.$router.push('login')
+    }
+
+  },
   data(){
     return{
       activeComponent:null,

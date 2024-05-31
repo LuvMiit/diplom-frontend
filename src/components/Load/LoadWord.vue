@@ -13,8 +13,7 @@ import {userToken} from "@/store.js";
 export default {
   data() {
     return {
-      wordDocument: null,
-      responseData: null
+      wordDocument: null
     };
   },
   methods: {
